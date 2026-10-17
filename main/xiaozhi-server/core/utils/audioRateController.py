@@ -51,7 +51,7 @@ class AudioRateController:
         if len(self.queue) == 0 and self.play_position > 0:
             elapsed_since_empty = (time.monotonic() - self._last_queue_empty_time) * 1000
             # Treat gaps longer than one frame as a real pause/resume cycle.
-            if elapsed_since_empty >= self.frame_duration:
+            if elapsed_since_empty >= self.interval_ms:
                 self.start_timestamp = time.monotonic() - (self.play_position / 1000)
                 self.logger.bind(tag=TAG).debug(
                     f"Queue resumed from empty state; reset timestamp. Playback position: {self.play_position}ms, gap: {elapsed_since_empty:.0f}ms"

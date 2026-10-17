@@ -1,4 +1,5 @@
 import os
+import opuslib_next
 import io
 import wave
 import uuid
@@ -79,9 +80,6 @@ class ASRProviderBase(ABC):
                 if len(pcm_bytes) > 1920 * 15:
                     await self.handle_voice_stop(conn, [pcm_bytes])
                 conn.reset_audio_states()
-
-                if len(asr_audio_task) > 15:
-                    await self.handle_voice_stop(conn, asr_audio_task)
 
     # Handle the end of speech.
     async def handle_voice_stop(self, conn: "ConnectionHandler", asr_audio_task: List[bytes]):

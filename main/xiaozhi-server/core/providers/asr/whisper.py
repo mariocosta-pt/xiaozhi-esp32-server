@@ -67,23 +67,17 @@ class ASRProvider(ASRProviderBase):
         self,
         opus_data: List[bytes],
         session_id: str,
-        audio_format="opus",
         artifacts=None,
     ) -> Tuple[Optional[str], Optional[str]]:
-        logger.bind(tag=TAG).debug(f"Processing Whisper ASR request, session_id: {session_id}, audio_format: {audio_format}")
+        logger.bind(tag=TAG).debug(f"Processing Whisper ASR request, session_id: {session_id}")
         
         file_path = None
         try:
             start_time = time.time()
             
-            # Decode audio data
-            if audio_format == "pcm":
-                pcm_data = opus_data
-                logger.bind(tag=TAG).debug(f"Using PCM data directly, length: {len(opus_data)}")
-            else:
-                logger.bind(tag=TAG).debug(f"Decoding Opus data to PCM")
-                pcm_data = self.decode_opus(opus_data)
-                logger.bind(tag=TAG).debug(f"Decoded PCM data length: {len(pcm_data) if pcm_data else 0}")
+            # Audio arrives already decoded to PCM at the WebSocket entry point (connection.py).
+            pcm_data = opus_data
+            logger.bind(tag=TAG).debug(f"Using PCM data directly, length: {len(opus_data)}")
             
             # Save audio to file for Whisper processing
             file_path = self.save_audio_to_file(pcm_data, session_id)

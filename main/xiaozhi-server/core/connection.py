@@ -111,7 +111,7 @@ class ConnectionHandler:
         self.welcome_msg = None
         self.max_output_size = 0
         self.chat_history_conf = 0
-        self.audio_format = "opus"
+        self.audio_format = "pcm"
         self.sample_rate = 24000  # Default sample rate, dynamically updated from the client hello message.
 
         # Client state related

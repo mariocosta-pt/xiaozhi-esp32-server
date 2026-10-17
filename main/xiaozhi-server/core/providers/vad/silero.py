@@ -1,3 +1,4 @@
+import opuslib_next
 import time
 import os
 import numpy as np
@@ -62,7 +63,7 @@ class VADProvider(VADProviderBase):
         try:
             self._init_connection_state(conn)
 
-            # pcm_frame is already processed PCM data
+            pcm_frame = opus_packet  # already-decoded PCM by the time it reaches VAD
             conn.client_audio_buffer.extend(pcm_frame)
 
             client_have_voice = False
